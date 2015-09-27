@@ -1,6 +1,7 @@
 Sample dialog (ajax) with <a href="incframework.com/en-US"> Incoding framework </a>
 
 # Open dialog (ajax get)
+```
 @(Html.When(JqueryBind.Click)
                               .AjaxGet(Url.Dispatcher().Query(new AddOrEditProduct.Get()
                                                               {
@@ -16,9 +17,11 @@ Sample dialog (ajax) with <a href="incframework.com/en-US"> Incoding framework <
                                   )
                               .AsHtmlAttributes()
                               .ToLink(each.For(r => r.Name)))
+```
 
 
 # Form (submit ajax)
+```
 @using (@Html.When(JqueryBind.InitIncoding)
              .Direct()
              .OnSuccess(dsl => dsl.Self().Core().Form.Validation.Parse())
@@ -43,3 +46,4 @@ Sample dialog (ajax) with <a href="incframework.com/en-US"> Incoding framework <
           .AsHtmlAttributes()
           .ToButton("Close"))
 }
+```
