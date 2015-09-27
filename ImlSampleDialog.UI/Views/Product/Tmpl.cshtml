@@ -25,6 +25,7 @@
             @using (var each = template.ForEach())
             {
                 <tr>
+                    <td>@each.For(r => r.CreatedDt)</td>
                     <td>
                         @(Html.When(JqueryBind.Click)
                               .AjaxGet(Url.Dispatcher().Query(new AddOrEditProduct.Get() { Id = each.For(r => r.Id) }).AsView("~/Views/Product/AddOrEdit.cshtml"))
@@ -38,10 +39,8 @@
                               .AsHtmlAttributes()
                               .ToLink(each.For(r => r.Name)))
                     </td>
-                    <td>@each.For(r => r.CreatedDt)</td>
                 </tr>
             }
-
             </tbody>
         </table>
     }

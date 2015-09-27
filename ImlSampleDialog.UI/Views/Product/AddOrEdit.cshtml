@@ -17,7 +17,7 @@
     @Html.ForGroup(r => r.Id).Hidden()
     @Html.ForGroup(r => r.Name).TextBox()
     <input type="submit" value="Save"/>
-    @(Html.When(JqueryBind.Click)
+    @(Html.When(JqueryBind.Submit)
           .StopPropagation()
           .Direct()
           .OnSuccess(dsl => dsl.WithId("dialogId").JqueryUI().Dialog.Close())
