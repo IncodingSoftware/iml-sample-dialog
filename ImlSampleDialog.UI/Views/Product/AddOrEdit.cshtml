@@ -1,0 +1,26 @@
+﻿@model AddOrEditProduct
+
+@using (@Html.When(JqueryBind.InitIncoding)
+             .Direct()
+             .OnSuccess(dsl => dsl.Self().Core().Form.Validation.Parse())
+             .When(JqueryBind.Submit)
+             .PreventDefault()
+             .Submit()
+             .OnSuccess(dsl =>
+                        {
+                            dsl.WithId("dialogId").JqueryUI().Dialog.Close();
+                            dsl.WithId(typeof(GetProductsQuery).Name).Core().Trigger.Incoding();
+                        })
+             .AsHtmlAttributes()
+             .ToBeginForm(Html, Url.Dispatcher().Push(new AddOrEditProduct())))
+{
+    @Html.ForGroup(r => r.Id).Hidden()
+    @Html.ForGroup(r => r.Name).TextBox()
+    <input type="submit" value="Save"/>
+    @(Html.When(JqueryBind.Click)
+          .StopPropagation()
+          .Direct()
+          .OnSuccess(dsl => dsl.WithId("dialogId").JqueryUI().Dialog.Close())
+          .AsHtmlAttributes()
+          .ToButton("Close"))
+}

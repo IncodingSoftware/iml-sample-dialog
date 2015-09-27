@@ -1,0 +1,48 @@
+﻿@{
+    
+    using (var template = Html.Incoding().Template<GetProductsQuery.Response>())
+    {
+        <div>
+            @(Html.When(JqueryBind.Click)
+                  .AjaxGet(Url.Dispatcher().Model(new AddOrEditProduct()).AsView("~/Views/Product/AddOrEdit.cshtml"))
+                  .OnSuccess(dsl => dsl.WithId("dialogId")
+                                       .Behaviors(inDsl =>
+                                                  {
+                                                      inDsl.Core().Insert.Html();
+                                                      inDsl.JqueryUI().Dialog.Open(options => { options.Title = "Add product"; });
+                                                  }))
+                  .AsHtmlAttributes()
+                  .ToButton("Add"))
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Created Date</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            @using (var each = template.ForEach())
+            {
+                <tr>
+                    <td>
+                        @(Html.When(JqueryBind.Click)
+                              .AjaxGet(Url.Dispatcher().Query(new AddOrEditProduct.Get() { Id = each.For(r => r.Id) }).AsView("~/Views/Product/AddOrEdit.cshtml"))
+                              .OnSuccess(dsl => dsl.WithId("dialogId")
+                                                   .Behaviors(inDsl =>
+                                                              {
+                                                                  inDsl.Core().Insert.Html();
+                                                                  inDsl.JqueryUI().Dialog.Open(options => { options.Title = "Add product"; });
+                                                              })
+                                  )
+                              .AsHtmlAttributes()
+                              .ToLink(each.For(r => r.Name)))
+                    </td>
+                    <td>@each.For(r => r.CreatedDt)</td>
+                </tr>
+            }
+
+            </tbody>
+        </table>
+    }
+}

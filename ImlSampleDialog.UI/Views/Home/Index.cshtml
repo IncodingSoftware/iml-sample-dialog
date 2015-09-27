@@ -1,0 +1,12 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@(Html.When(JqueryBind.InitIncoding)
+      .AjaxGet(Url.Dispatcher().Query(new GetProductsQuery()).AsJson())
+      .OnSuccess(dsl =>
+                 {
+                     var urlTmpl = Url.Dispatcher().AsView("~/Views/Product/Tmpl.cshtml");
+                     dsl.Self().Core().Insert.WithTemplateByUrl(urlTmpl).Html();
+                 })
+      .AsHtmlAttributes(new { id = typeof(GetProductsQuery).Name })
+      .ToDiv())
